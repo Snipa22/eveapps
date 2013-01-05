@@ -93,6 +93,39 @@ def lpstore(corpID):
     output += """</table></body>"""
     return output
 
+@app.route("/suggestion")
+def suggestion():
+    c = g.sqlite.cursor()
+    c.execute("select typeID from offers order by random() limit 10")
+    output = """<script type="text/javascript"> 
+        var items = new Array("""
+    
+    for row in c:
+        output += "%i," % c[0]
+    output += """34);
+        var index = 0;
+         
+        function showMarketDetails() {
+          if (isCompleted()) { 
+            window.location.reload();
+          } else {
+            CCPEVE.showMarketDetails(items[index++]);
+          }
+        }
+         
+        function isCompleted() {
+          return index >= items.length;
+        }
+         
+        function start() {
+          setInterval ( "showMarketDetails()", 2000 );
+        }
+         
+        start();
+        </script> 
+"""
+    return output
+
 def get_price(typeID, type='buy'):
     retVal = 0
     try:
