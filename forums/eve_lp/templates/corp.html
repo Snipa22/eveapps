@@ -1,0 +1,64 @@
+{% load humanize %}
+<html>
+    <head>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://snipanet.com/inc/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="https://raw.github.com/jquery/jquery-metadata/master/jquery.metadata.js"></script>
+        <link rel="stylesheet" href="http://snipanet.com/inc/themes/blue/style.css" type="text/css">
+        <script type="text/javascript">
+            $(document).ready(function() 
+                {
+                    $.tablesorter.addParser({
+                        id: 'fancyNumber',
+                        is:function(s){return false;},
+                        format: function(s) {return s.replace(/[\,\.]/g,'');},
+                        type: 'numeric'
+                });
+            $("#myTable").tablesorter();
+                }
+            ); 
+        </script>
+        <style TYPE="text/css">
+            span.dropt {border-bottom: thin dotted; background: #ffeedd;}
+            span.dropt:hover {text-decoration: none; background: #ffffff; z-index: 6; }
+            span.dropt span {position: absolute; left: -9999px;
+            margin: 20px 0 0 0px; padding: 3px 3px 3px 3px;
+            border-style:solid; border-color:black; border-width:1px; z-index: 6;}
+            span.dropt:hover span {left: 2%; background: #ffffff;} 
+            span.dropt span {position: absolute; left: -9999px;
+            margin: 4px 0 0 0px; padding: 3px 3px 3px 3px; 
+            border-style:solid; border-color:black; border-width:1px;}
+            span.dropt:hover span {margin: 20px 0 0 170px; background: #ffffff; z-index:6;} 
+        </style>
+    </head>
+    <body>
+        <br>
+        <table id="myTable" class="tablesorter">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th class="{sorter: 'fancyNumber'}">Store Price</th>
+                    <th class="{sorter: 'fancyNumber'}">Market Price</th>
+                    <th class="{sorter: 'fancyNumber'}">LP</th><th class="{sorter: 'fancyNumber'}">Isk/LP</th>
+                    <th>Items Needed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in lpdata %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.iskCost|intcomma }}</td>
+                    <td>{{ item.itemSell|intcomma }}</td>
+                    <td>{{ item.lpCost|intcomma }}</td>
+                    <td>{{ item.iskLp|intcomma }}</td>
+                    <td><span class='dropt'>{{ lpdata.reqItems|length }}<span>
+                    {% for item in reqItems %}
+                        Quantity: {{ item.quantity|intcomma }} :: Item: {{ item.name|intcomma }} :: {{ item.price|intcomma }} ISK ea.<br>
+                    {% endif %}
+                    </span></span></td>
+                </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
