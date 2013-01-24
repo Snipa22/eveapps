@@ -44,17 +44,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in lpdata %}
+                {% for key,value in lpdata.items %}
                 <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.iskCost|intcomma }}</td>
-                    <td>{{ item.itemSell|intcomma }}</td>
-                    <td>{{ item.lpCost|intcomma }}</td>
-                    <td>{{ item.iskLp|intcomma }}</td>
-                    <td><span class='dropt'>{{ lpdata.reqItems|length }}<span>
-                    {% for item in reqItems %}
-                        Quantity: {{ item.quantity|intcomma }} :: Item: {{ item.name|intcomma }} :: {{ item.price|intcomma }} ISK ea.<br>
-                    {% endif %}
+                    <td>{{ value.name }}</td>
+                    <td>{{ value.iskCost|floatformat:"2"|intcomma }}</td>
+                    <td>{{ value.itemSell|floatformat:"2"|intcomma }}</td>
+                    <td>{{ value.lpCost|floatformat:"2"|intcomma }}</td>
+                    <td>{{ value.iskLp|floatformat:"2"|intcomma }}</td>
+                    <td><span class='dropt'>{{ value.reqItems|length }}<span>
+                    {% for item in value.reqItems %}
+                        Quantity: {{ item.quantity|floatformat:"2"|intcomma }} :: Item: {{ item.name|floatformat:"2"|intcomma }} :: {{ item.price|floatformat:"2"|intcomma }} ISK ea.<br>
+                    {% endfor %}
                     </span></span></td>
                 </tr>
         {% endfor %}

@@ -1,5 +1,7 @@
 from django.conf.urls.defaults import *
 
+from eve_lp import views as lp_views
+
 urlpatterns = patterns('',
     # LP App Home
     url('^$', lp_views.index, name='index'),
