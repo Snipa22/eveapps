@@ -1,16 +1,14 @@
 # Import Models
 from eve_api.models import apiAlliance, apiCorp, apiNameLookup
-from eve_api.general import corpAPIUpdate, nameUpdate
-import eveapi
+from eve_api.general import corpAPIUpdate, nameUpdate, apiHandler
 
 class Command(BaseCommand):
-    api = eveapi.EVEAPIConnection()
-    result = api.eve.AllianceList()
+    result = apiHandler('eve', 'AllianceList')
     for allianceData in result.alliances:
         try:
             alliance = apiAlliance.objects.get(id=allianceData.allianceID)
             alliance.members = allianceData.memberCount
-            if alliance.executor != allianceData.executorCorpID
+            if alliance.executor != allianceData.executorCorpID:
                 corpAPIUpdate(allianceData.executorCorpID)
                 alliance.executor = apiCorp.objects.get(id=allianceData.executorCorpID)
             alliance.save()

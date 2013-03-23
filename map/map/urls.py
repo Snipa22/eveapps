@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
 
-from eve_api import views as eveAPIViews
+from map import views as mapViews
 
 urlpatterns = patterns('',
     # API App Home
-    url('^$', eveAPIViews.index, name='index'),
+    url('^$', mapViews.index, name='index'),
 )
