@@ -149,8 +149,6 @@ def regionData(id):
 
 @route('/reposearch')
 def repoSearch():
-    if request.headers.get('X-Forwarded-For') != config['allowedip']:
-        abort(401, "Sorry, access denied.")
     global repoList
     global repoVal
     query = PySQLPool.getNewQuery(db)
@@ -204,8 +202,6 @@ def repoSearch():
 
 @route('/repoapi')
 def repoApi():
-    if request.headers.get('X-Forwarded-For') != config['allowedip'] and request.headers.get('X-Forwarded-For') != config['allowedip2']:
-        abort(401, "Sorry, access denied.")
     retVal = {}
     doc = Document()
     refitems = doc.createElement("refitems")
